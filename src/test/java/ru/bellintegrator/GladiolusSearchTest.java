@@ -41,7 +41,6 @@ public class GladiolusSearchTest extends BaseTest {
     public void testGoogleSearch(String query) {
              googleSearchPage.searchFor(query);
 
-       // WebDriverWait wait = new WebDriverWait(driver, 60);
         List<WebElement> wikipediaLinks = googleSearchPage.getResults(wait);
         for (WebElement link : wikipediaLinks) {
             String href = link.getAttribute("href");

@@ -25,9 +25,8 @@ public class TableSearchTest extends BaseTest {
     @BeforeEach
     public void setUp() {
         super.setUp(); // Вызывает setUp из BaseTest
-        googleSearchPage = new GoogleSearchPage(driver);
-        wait = new WebDriverWait(driver, 60);
-
+        wait = new WebDriverWait(driver, 60); // Инициализируется перед созданием GoogleSearchPage
+        googleSearchPage = new GoogleSearchPage(driver, wait);
     }
 
     @ParameterizedTest
@@ -35,16 +34,8 @@ public class TableSearchTest extends BaseTest {
     public void testOrderOfTeachers(String query) {
 
         googleSearchPage.searchFor(query);
-
-        WebElement results = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("rso")));
-        System.out.println(results.getText());
-
-
-        // Клик по заголовку, который содержит текст "Таблица"
-        WebElement linkToWikipedia = driver.findElement(By.xpath("//div[contains(@class, 'g')]//a[contains(@href, 'wikipedia.org') and .//h3[contains(text(),'Таблица')]]"));
-
-             linkToWikipedia.click();
-
+        googleSearchPage.waitForSearchResults();
+        googleSearchPage.clickLinkWithText("//div[contains(@class, 'g')]//a[contains(@href, 'wikipedia.org') and .//h3[contains(text(),'Таблица')]]");
         wait.until(ExpectedConditions.presenceOfElementLocated(By.id("mw-content-text")));
         WebElement teachingStaffTable = driver.findElement(By.xpath("//h3[.//span[contains(text(),'Простая таблица')]]/following-sibling::table[1]"));
 

@@ -11,11 +11,22 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import pages.GoogleSearchPage;
 import java.util.List;
 
+/**
+ * Класс TableSearchTest предназначен для автоматизированного тестирования порядка данных в таблице преподавателей в статье Википедии про таблицы,
+ * полученной через поиск в Google.
+ *
+ * Этот класс наследуется от BaseTest, который содержит общую конфигурацию для всех тестов.
+ * В каждом тесте выполняется поиск в Google с заданным запросом, и проверяется порядок элементов в полученной таблице.
+ */
 public class TableSearchTest extends BaseTest {
 
     private WebDriverWait wait;
     private GoogleSearchPage googleSearchPage;
 
+    /**
+     * Подготавливает окружение перед каждым тестом.
+     * Инициализирует экземпляры WebDriverWait и GoogleSearchPage для последующего использования в тестах.
+     */
     @Override
     @BeforeEach
     public void setUp() {
@@ -24,6 +35,12 @@ public class TableSearchTest extends BaseTest {
         googleSearchPage = new GoogleSearchPage(driver, wait);
     }
 
+    /**
+     * Параметризованный тест для проверки порядка данных в таблице преподавателей.
+     *
+     * @param query строка запроса для поиска в Google.
+     *              В данном случае, используется слово "таблица" для поиска.
+     */
     @ParameterizedTest
     @ValueSource(strings = {"таблица"})
     public void testOrderOfTeachers(String query) {

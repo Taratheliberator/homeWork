@@ -9,9 +9,17 @@ import pages.GoogleSearchPage;
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Тестовый класс для проверки функциональности поиска в Google.
+ * Использует Selenium для автоматизации веб-браузера.
+ */
 public class GladiolusSearchTest extends BaseTest {
     private GoogleSearchPage googleSearchPage;
 
+    /**
+     * Подготовка перед каждым тестом.
+     * Инициализирует страницу поиска Google.
+     */
     @Override
     @BeforeEach
     public void setUp() {
@@ -19,14 +27,23 @@ public class GladiolusSearchTest extends BaseTest {
         googleSearchPage = new GoogleSearchPage(driver);
     }
 
+    /**
+     * Тест для проверки заголовка страницы Google.
+     * Убеждается, что заголовок страницы соответствует ожидаемому.
+     */
     @Test
     public void testGooglePageTitle() {
-
         String pageTitle = driver.getTitle();
         System.out.println("Заголовок страницы: " + pageTitle);
         assertEquals("Google", driver.getTitle(), "Заголовок должен быть Google");
     }
 
+    /**
+     * Параметризованный тест для проверки функции поиска Google.
+     * Ищет заданный запрос и проверяет наличие результатов.
+     *
+     * @param query Строка поискового запроса.
+     */
     @ParameterizedTest
     @ValueSource(strings = {"гладиолус"})
     public void testGoogleSearch(String query) {

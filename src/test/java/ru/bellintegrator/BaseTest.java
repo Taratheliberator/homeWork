@@ -16,7 +16,7 @@ public abstract class BaseTest {
     protected WebDriverWait wait;
     @BeforeEach
     public void setUp() {
-        System.setProperty("webdriver.chrome.driver", "C:\\Users\\Viner\\chromedriver-win64\\chromedriver.exe");
+     //   System.setProperty("webdriver.chrome.driver", "C:\\Users\\User\\chromedriver-win64\\chromedriver.exe");
         driver = new ChromeDriver();
         wait = new WebDriverWait(driver, 60);
         driver.get("https://www.google.com");

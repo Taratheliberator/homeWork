@@ -18,6 +18,7 @@ public abstract class BaseTest {
     public void setUp() {
      //   System.setProperty("webdriver.chrome.driver", "C:\\Users\\User\\chromedriver-win64\\chromedriver.exe");
         driver = new ChromeDriver();
+        driver.manage().window().maximize();
         wait = new WebDriverWait(driver, 60);
         driver.get("https://www.google.com");
     }

@@ -1,19 +1,14 @@
 package ru.bellintegrator;
 
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import pages.GoogleSearchPage;
-
 import java.util.List;
 
 public class TableSearchTest extends BaseTest {
@@ -24,13 +19,13 @@ public class TableSearchTest extends BaseTest {
     @Override
     @BeforeEach
     public void setUp() {
-        super.setUp(); // Вызывает setUp из BaseTest
-        wait = new WebDriverWait(driver, 60); // Инициализируется перед созданием GoogleSearchPage
+        super.setUp();
+        wait = new WebDriverWait(driver, 60);
         googleSearchPage = new GoogleSearchPage(driver, wait);
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {"таблица"}) // Примеры запросов для теста
+    @ValueSource(strings = {"таблица"})
     public void testOrderOfTeachers(String query) {
 
         googleSearchPage.searchFor(query);
@@ -40,7 +35,6 @@ public class TableSearchTest extends BaseTest {
         WebElement teachingStaffTable = driver.findElement(By.xpath("//h3[.//span[contains(text(),'Простая таблица')]]/following-sibling::table[1]"));
 
         List<WebElement> tableRows = teachingStaffTable.findElements(By.tagName("tr"));
-
         String firstRowText = tableRows.get(0).getText();
         String lastRowText = tableRows.get(tableRows.size() - 1).getText();
 

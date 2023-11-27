@@ -56,17 +56,21 @@ public class OpenBankSearchTest extends BaseTest {
 
         Assertions.assertTrue(currencyRows.size() >= 3, "Количество валют меньше трех");
 
-        WebElement usdBuyRateElement = driver.findElement(By.xpath("//tr[contains(@class, 'card-rates-table__row') and descendant::div[contains(@class, 'currency__icon--usd')]]/td[contains(@class, 'card-rates-table__sale')]"));
-        WebElement usdSellRateElement = driver.findElement(By.xpath("//tr[contains(@class, 'card-rates-table__row') and descendant::div[contains(@class, 'currency__icon--usd')]]/td[contains(@class, 'card-rates-table__purchase')]"));
-        double usdBuyRate = Double.parseDouble(usdBuyRateElement.getText());
-        double usdSellRate = Double.parseDouble(usdSellRateElement.getText());
-        Assertions.assertTrue(usdBuyRate < usdSellRate, "Курс покупки долларов не меньше курса продажи");
+        verifyCurrencyRates("currency__icon--usd", "card-rates-table__sale", "card-rates-table__purchase", "Курс покупки долларов не меньше курса продажи");
+        verifyCurrencyRates("currency__icon--eur", "card-rates-table__sale", "card-rates-table__purchase", "Курс покупки евро не меньше курса продажи");
 
-        WebElement eurBuyRateElement = driver.findElement(By.xpath("//tr[contains(@class, 'card-rates-table__row') and descendant::div[contains(@class, 'currency__icon--eur')]]/td[contains(@class, 'card-rates-table__sale')]"));
-        WebElement eurSellRateElement = driver.findElement(By.xpath("//tr[contains(@class, 'card-rates-table__row') and descendant::div[contains(@class, 'currency__icon--eur')]]/td[contains(@class, 'card-rates-table__purchase')]"));
-        double eurBuyRate = Double.parseDouble(eurBuyRateElement.getText().replace(",", "."));
-        double eurSellRate = Double.parseDouble(eurSellRateElement.getText().replace(",", "."));
-        Assertions.assertTrue(eurBuyRate < eurSellRate, "Курс покупки евро не меньше курса продажи");
+    }
+    protected void verifyCurrencyRates(String currencyIconClass, String buyRateClass, String sellRateClass, String errorMessage) {
+        WebElement buyRateElement = driver.findElement(By.xpath(String.format("//tr[contains(@class, 'card-rates-table__row') and descendant::div[contains(@class, '%s')]]/td[contains(@class, '%s')]", currencyIconClass, buyRateClass)));
+        WebElement sellRateElement = driver.findElement(By.xpath(String.format("//tr[contains(@class, 'card-rates-table__row') and descendant::div[contains(@class, '%s')]]/td[contains(@class, '%s')]", currencyIconClass, sellRateClass)));
+
+        double buyRate = parseCurrencyRate(buyRateElement.getText());
+        double sellRate = parseCurrencyRate(sellRateElement.getText());
+
+        Assertions.assertTrue(buyRate < sellRate, errorMessage);
     }
 
+    private double parseCurrencyRate(String rateText) {
+        return Double.parseDouble(rateText.replace(",", "."));
+    }
 }

@@ -27,7 +27,6 @@ public class GoogleSearchPage {
     @FindBy(how = How.XPATH, using = "//a[contains(@href, 'wikipedia.org')]")
     List<WebElement> results;
 
-
     public GoogleSearchPage(WebDriver driver) {
         PageFactory.initElements(driver, this);
     }

@@ -24,9 +24,9 @@ public class OpenBankSearchTest extends BaseTest {
     @Override
     @BeforeEach
     public void setUp() {
-        super.setUp();
-        googleSearchPage = new GoogleSearchPage(driver);
-        wait = new WebDriverWait(driver, 60);
+        super.setUp(); // Вызывает setUp из BaseTest
+        wait = new WebDriverWait(driver, 60); // Инициализируется перед созданием GoogleSearchPage
+        googleSearchPage = new GoogleSearchPage(driver, wait);
     }
 
     @ParameterizedTest
@@ -35,9 +35,8 @@ public class OpenBankSearchTest extends BaseTest {
 
         googleSearchPage.searchFor(query);
 
-        WebElement linkToOpen = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//h3[contains(text(),'Банк Открытие: кредит наличными')]")));
-        linkToOpen.click();
-
+        googleSearchPage.waitForSearchResults();
+        googleSearchPage.clickLinkWithText("//h3[contains(text(),'Банк Открытие: кредит наличными')]");
         try {
             WebElement cookieAcceptButton = wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector(".CookieWarning_cookie-warning-button__XaO44")));
             cookieAcceptButton.click();
